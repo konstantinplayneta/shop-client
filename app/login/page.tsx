@@ -1,26 +1,34 @@
 /* eslint-disable max-len */
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { signUpFx } from '../api/auth'
+import { loginFx, signUpFx } from '../api/auth'
 
 export default function Login() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+  const router = useRouter()
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible((prevState) => !prevState)
   }
 
+  const redirectToSignUp = () => {
+    router.push('/signup')
+  }
+
   const onClick = async () => {
+    console.log('login')
     try {
-      const userData = await signUpFx({
-        url: '/users/signup',
-        username: '111',
+      const userData = await loginFx({
+        url: '/users/login',
         password: '123123',
-        email: '123@gmail.com',
+        email: '3434@werr.rom',
       })
 
-      console.log('userData', userData)
+      if (!userData) {
+        return
+      }
     } catch (error) {
       console.log(error)
     }
@@ -41,7 +49,10 @@ export default function Login() {
               Enter your account and discover new experiences
             </h1>
             <p className="text-lg">You do not have an account?</p>
-            <button className="inline-block flex-none px-4 py-3 border-2 rounded-lg font-medium border-black bg-black text-white">
+            <button
+              className="inline-block flex-none px-4 py-3 border-2 rounded-lg font-medium border-black bg-black text-white"
+              onClick={redirectToSignUp}
+            >
               Create account here
             </button>
           </div>
@@ -58,7 +69,10 @@ export default function Login() {
             </div>
             <div className="flex flex-wrap items-center space-x-2 justify-center">
               <span>Not a member? </span>
-              <a href="#" className="underline font-medium text-[#070eff]">
+              <a
+                href="/signup"
+                className="underline font-medium text-[#070eff]"
+              >
                 Sign up now
               </a>
             </div>
