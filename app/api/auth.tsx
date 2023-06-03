@@ -11,7 +11,7 @@ interface IsignUpFx {
 interface LoginFx {
   url: string
   password: string
-  email: string
+  username: string
 }
 
 export const signUpFx = createEffect(
@@ -28,8 +28,8 @@ export const signUpFx = createEffect(
 )
 
 export const loginFx = createEffect(
-  async ({ url, password, email }: LoginFx) => {
-    const { data } = await api.post(url, { email, password })
+  async ({ url, password, username }: LoginFx) => {
+    const { data } = await api.post(url, { username, password })
 
     if (data.warningMessage) {
       console.log(data.warningMessage)
