@@ -29,7 +29,7 @@ export const signUpFx = createEffect(
 
 export const loginFx = createEffect(
   async ({ url, password, email }: LoginFx) => {
-    const { data } = await api.post(url, { password, email })
+    const { data } = await api.post(url, { email, password })
 
     if (data.warningMessage) {
       console.log(data.warningMessage)

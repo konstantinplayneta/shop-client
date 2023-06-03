@@ -3,7 +3,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { loginFx, signUpFx } from '../api/auth'
+import { loginFx } from '../api/auth'
 
 export default function Login() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
@@ -22,8 +22,8 @@ export default function Login() {
     try {
       const userData = await loginFx({
         url: '/users/login',
+        email: '123123@gmail.com',
         password: '123123',
-        email: '3434@werr.rom',
       })
 
       if (!userData) {
