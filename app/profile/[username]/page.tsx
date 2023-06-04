@@ -1,27 +1,31 @@
+'use client'
+
 import { UserFx } from '@/app/api/user'
 import Image from 'next/image'
-
-async function getUserProfile() {
-  try {
-    const userProfile = await UserFx({
-      url: '/gifts?limit=20&offset=1',
-    })
-
-    if (!userProfile) {
-      return
-    }
-
-    // return userProfile
-    console.log(userProfile)
-  } catch (error) {
-    console.log(error)
-  }
-}
+import { useEffect } from 'react'
 
 export default async function ProfilePage() {
-  const userProfile = getUserProfile()
+  useEffect(() => {
+    getUserProfile()
+  }, [])
 
-  console.log('userProfile', userProfile)
+  const getUserProfile = async () => {
+    try {
+      const userProfile = await UserFx({
+        url: '/profile?id=1',
+      })
+
+      if (!userProfile) {
+        return
+      }
+
+      console.log(userProfile)
+
+      return userProfile
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <main className="profile-page">
