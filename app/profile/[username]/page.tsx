@@ -21,7 +21,7 @@ async function getUserProfile() {
 export default async function ProfilePage() {
   const userProfile = getUserProfile()
 
-  // console.log('userProfile', userProfile)
+  console.log('userProfile', userProfile)
 
   return (
     <main className="profile-page">
