@@ -1,3 +1,4 @@
+import { attachLogger } from 'effector-logger'
 import './globals.css'
 
 export const metadata = {
@@ -7,6 +8,8 @@ export const metadata = {
     icon: '/img/logo.svg',
   },
 }
+
+attachLogger()
 
 export default function RootLayout({
   children,

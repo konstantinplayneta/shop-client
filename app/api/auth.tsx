@@ -1,5 +1,6 @@
 import { createEffect } from 'effector'
 import api from './axiosClient'
+import { AxiosError } from 'axios'
 
 interface IsignUpFx {
   url: string
@@ -8,12 +9,11 @@ interface IsignUpFx {
   email: string
 }
 
-interface LoginFx {
+interface IloginFx {
   url: string
   password: string
   username: string
 }
-
 export const signUpFx = createEffect(
   async ({ url, username, password, email }: IsignUpFx) => {
     const { data } = await api.post(url, { username, password, email })
@@ -28,7 +28,7 @@ export const signUpFx = createEffect(
 )
 
 export const loginFx = createEffect(
-  async ({ url, password, username }: LoginFx) => {
+  async ({ url, username, password }: IloginFx) => {
     const { data } = await api.post(url, { username, password })
 
     if (data.warningMessage) {
@@ -39,3 +39,19 @@ export const loginFx = createEffect(
     return data
   }
 )
+
+export const checkUserAuthFx = createEffect(async (url: string) => {
+  try {
+    const { data } = await api.get(url)
+
+    return data
+  } catch (error) {
+    const axiosError = error as AxiosError
+
+    if (axiosError.response) {
+      if (axiosError.response.status === 403) {
+        return false
+      }
+    }
+  }
+})

@@ -44,7 +44,9 @@ export default function Login() {
         return
       }
 
-      router.push('/')
+      console.log('push')
+
+      router.push(`/profile/${username}`)
     } catch (error) {
       console.log(error)
     }

@@ -5,7 +5,7 @@ interface UserFx {
   url: string
 }
 
-export const UserFx = createEffect(async ({ url }: UserFx) => {
+export const getUserFx = createEffect(async ({ url }: UserFx) => {
   const { data } = await api.get(url)
 
   if (data.warningMessage) {

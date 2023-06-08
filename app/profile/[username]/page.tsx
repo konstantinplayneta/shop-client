@@ -1,30 +1,40 @@
 'use client'
 
-import { UserFx } from '@/app/api/user'
+import { getUserFx } from '@/app/api/user'
 import Image from 'next/image'
-import { useEffect } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
-export default async function ProfilePage() {
-  useEffect(() => {
-    getUserProfile()
-  }, [])
+export default function ProfilePage() {
+  const [user, setUser] = useState('')
+  const pathname = usePathname()
+  const router = useRouter()
 
-  const getUserProfile = async () => {
+  const getUserProfile = async (id: string) => {
     try {
-      const userProfile = await UserFx({
-        url: '/profile?id=1',
+      const userProfile = await getUserFx({
+        url: `/users/profile/${id}`,
       })
 
       if (!userProfile) {
-        return
+        console.log('not found')
+        router.push('/')
       }
 
-      console.log(userProfile)
-
-      return userProfile
+      setUser(userProfile)
     } catch (error) {
       console.log(error)
     }
+  }
+
+  useEffect(() => {
+    if (!user) {
+      getUserProfile(pathname.split('/')[2])
+    }
+  }, [])
+
+  if (!user) {
+    return <div />
   }
 
   return (
@@ -109,8 +119,8 @@ export default async function ProfilePage() {
                 </div>
               </div>
               <div className="text-center mt-12">
-                <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                  +++++
+                <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700">
+                  {user?.username} +++++
                 </h3>
                 <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                   <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400" />
@@ -141,7 +151,7 @@ export default async function ProfilePage() {
               <div className="py-10 border-t border-blueGray-200 text-center">
                 <div className="flex flex-wrap justify-center">
                   <div className="w-full lg:w-9/12 px-4">
-                    <p className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
+                    <p className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700">
                       Список желаний
                     </p>
                   </div>

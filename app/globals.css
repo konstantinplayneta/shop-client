@@ -145,3 +145,28 @@ a {
   width: 40px;
   height: 31px;
 }
+
+.g327 {
+  border-color: #302f30;
+}
+
+.clearNav {
+  backdrop-filter: saturate(180%) blur(5px) !important;
+  background-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.grr {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.greyC {
+  filter: gray;
+  -webkit-filter: grayscale(100%);
+  transition: 0.4s;
+}
+
+.greyC:hover {
+  filter: none;
+  -webkit-filter: none;
+  transition: 0.4s;
+}

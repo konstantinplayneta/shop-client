@@ -77,6 +77,16 @@
   resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-3.6.0.tgz#53fa5fe9c34faee89469e48f91d51a3766108bc8"
   integrity sha512-/Z3l6pXthq0JvMYdUFyX9j0MaCltlIn6mfh9jLyQwg5aPKxkyNa0PTHtU1AlFXLNk55ZuAeJRcpvq+tmLfKmaQ==
 
+"@effector/redux-devtools-adapter@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@effector/redux-devtools-adapter/-/redux-devtools-adapter-0.1.5.tgz#0900675400014ceb0e682d3f8a6c3c44219905d3"
+  integrity sha512-2brQsZiaBJ/BvxZFYmF46E9JIprxNp3RRcYw9kVlhpplizVKtJS0BvAfQ7Bb7aVQFJ2cYmxWPG+gMP4viT+C0w==
+
+"@effector/swc-plugin@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@effector/swc-plugin/-/swc-plugin-0.0.10.tgz#cdeafab73fd083301a2ba98c9c85745d81a10541"
+  integrity sha512-tDyc/wBJo0cC/vMp7xVLtb3X1qYS9o+RPnhg7zzrw34q+aHhXX/uNau25qIQ4fa/GvzCXOfx6QCePRHP3elXAw==
+
 "@emotion/hash@^0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.8.0.tgz#bbbff68978fefdbe68ccb533bc8cbe1d1afb5413"
@@ -985,6 +995,11 @@ delayed-stream@~1.0.0:
   resolved "https://registry.yarnpkg.com/delayed-stream/-/delayed-stream-1.0.0.tgz#df3ae199acadfb7d440aaae0b29e2272b24ec619"
   integrity sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==
 
+detect-node@2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.4.tgz#014ee8f8f669c5c58023da64b8179c083a28c46c"
+  integrity sha512-ZIzRpLJrOj7jjP2miAtgqIfmzbxa4ZOr5jJc601zklsfEx9oTzmmj2nVpIPRpNlRTIh8lc1kyViIY7BWSGNmKw==
+
 didyoumean@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/didyoumean/-/didyoumean-1.2.2.tgz#989346ffe9e839b4555ecf5666edea0d3e8ad037"
@@ -1020,6 +1035,19 @@ dom-align@^1.7.0:
   version "1.12.4"
   resolved "https://registry.yarnpkg.com/dom-align/-/dom-align-1.12.4.tgz#3503992eb2a7cfcb2ed3b2a6d21e0b9c00d54511"
   integrity sha512-R8LUSEay/68zE5c8/3BDxiTEvgb4xZTF0RKmAHfiEVN3klfIpXfi2/QCoiWPccVQ0J/ZGdz9OjzL4uJEP/MRAw==
+
+effector-inspector@^0.14.1:
+  version "0.14.1"
+  resolved "https://registry.yarnpkg.com/effector-inspector/-/effector-inspector-0.14.1.tgz#93f03a6247c0d6d5e0bd940a28db6474ded466af"
+  integrity sha512-wdPMM2OTBoo+LzbKLRnkHx0nfwe3EaZtClQawmUZgzo29ptyRArneFrKYDftmVjHMc63K75iKLFnk2/g4N5gaQ==
+
+effector-logger@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/effector-logger/-/effector-logger-0.14.0.tgz#9b38999ed5a9133217285cfd77a167be6ac0f188"
+  integrity sha512-Y8K6lH0rVrh5hGeqyN4fknMMkhYAO/z8VV35CVZo577T8U5A25l9H+684EILCecBbVXgF9DHw88x1YgIS7Hicg==
+  dependencies:
+    detect-node "2.0.4"
+    just-debounce-it "^1.1.0"
 
 effector-next@^1.3.3:
   version "1.3.3"
@@ -2027,6 +2055,11 @@ json5@^1.0.2:
   dependencies:
     array-includes "^3.1.5"
     object.assign "^4.1.3"
+
+just-debounce-it@^1.1.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/just-debounce-it/-/just-debounce-it-1.5.0.tgz#2276448332dd5925e825ba3c524a71da707bf628"
+  integrity sha512-itSWJS5d2DTSCizVJ2Z0Djx/dGmUGfZe7WNfUfVP23+htGcIcPHbEjL4eB8ljojTs/+oYwLexImRRCP0A2WXjA==
 
 language-subtag-registry@~0.3.2:
   version "0.3.22"

@@ -1,13 +1,17 @@
 'use client'
+import { useForm } from 'react-hook-form'
 
 export default function Contact() {
-  const handleSubmit = async (event) => {
+  const { register, handleSubmit } = useForm()
+
+  const onSubmit = async () => {
     event.preventDefault()
     const formData = new FormData(event.target)
 
     formData.append('access_key', '948c0a50-1cbf-4641-aa55-a976956f9da2')
 
     const object = Object.fromEntries(formData)
+
     const json = JSON.stringify(object)
 
     const response = await fetch('https://api.web3forms.com/submit', {
@@ -28,19 +32,22 @@ export default function Contact() {
     <section className="bg-white dark:bg-gray-900">
       <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
         <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">
-          Contact Us
+          Связаться с нами
         </h2>
         <p className="mb-8 lg:mb-16 font-light text-center text-gray-500 dark:text-gray-400 sm:text-xl">
-          Got a technical issue? Want to send feedback about a beta feature?
-          Need details about our Business plan? Let us know.
+          Возникла техническая проблема? Хотите отправить отзыв или что-то еще?
         </p>
-        <form action="#" className="space-y-8" onSubmit={handleSubmit}>
+        <form
+          action="#"
+          className="space-y-8"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div>
             <label
               htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
-              Your email
+              Ваш email
             </label>
             <input
               type="email"
@@ -51,6 +58,7 @@ export default function Contact() {
                 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500
                 dark:shadow-sm-light"
               placeholder="name@flowbite.com"
+              {...register('email')}
               required
             />
           </div>
@@ -59,7 +67,7 @@ export default function Contact() {
               htmlFor="subject"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
-              Subject
+              Тема
             </label>
             <input
               type="text"
@@ -68,8 +76,9 @@ export default function Contact() {
               rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500
                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
                 dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
-              placeholder="Let us know how we can help you"
+              placeholder="Дайте нам знать, как мы можем вам помочь"
               required
+              {...register('subject')}
             />
           </div>
           <div className="sm:col-span-2">
@@ -77,7 +86,7 @@ export default function Contact() {
               htmlFor="message"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
             >
-              Your message
+              Ваше обращение
             </label>
             <textarea
               id="message"
@@ -86,7 +95,9 @@ export default function Contact() {
               shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500
                dark:text-white
                dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="Leave a comment..."
+              placeholder="Оставить комментарий..."
+              required
+              {...register('message')}
             />
           </div>
           <button
@@ -95,7 +106,7 @@ export default function Contact() {
             flex-none px-3 py-2 md:px-4 md:py-3 border-2 rounded-lg
             font-medium border-black bg-black text-white"
           >
-            Send message
+            Отправить
           </button>
         </form>
       </div>
