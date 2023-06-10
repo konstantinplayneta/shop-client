@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { loginFx } from '../api/auth'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { setUser } from '../context/user'
 
 interface IFormInputs {
   username: string
@@ -44,8 +45,7 @@ export default function Login() {
         return
       }
 
-      console.log('push')
-
+      setUser(userData)
       router.push(`/profile/${username}`)
     } catch (error) {
       console.log(error)

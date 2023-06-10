@@ -36,7 +36,7 @@ export const loginFx = createEffect(
       return
     }
 
-    return data
+    return { username: data.username }
   }
 )
 

@@ -1,9 +1,13 @@
 'use client'
 
+import { useStore } from 'effector-react'
 import { useState } from 'react'
+import { $user } from '../context/user'
 
 export default function Header() {
   const [navbarOpen, setNavbarOpen] = useState(false)
+  const user = useStore($user)
+  console.log(user)
 
   return (
     <div className="fixed top-0 w-full z-30 clearNav md:bg-opacity-90 transition duration-300 ease-in-out">
@@ -52,24 +56,38 @@ export default function Header() {
         >
           <nav className="flex-col flex-grow ">
             <ul className="flex flex-grow justify-end flex-wrap items-center">
-              <li>
-                <a
-                  href="/login"
-                  className="font-medium text-gray-600 hover:text-gray-900
+              {!user ? (
+                <>
+                  <li>
+                    <a
+                      href="/login"
+                      className="font-medium text-gray-600 hover:text-gray-900
                   px-5 py-3 flex items-center transition duration-150 ease-in-out"
-                >
-                  Войти
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/signup"
-                  className="font-medium text-gray-600 hover:text-gray-900
+                    >
+                      Войти
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/signup"
+                      className="font-medium text-gray-600 hover:text-gray-900
                   px-5 py-3 flex items-center transition duration-150 ease-in-out"
-                >
-                  Регистрация
-                </a>
-              </li>
+                    >
+                      Регистрация
+                    </a>
+                  </li>
+                </>
+              ) : (
+                <li>
+                  <a
+                    href={`/profile/${user.username}`}
+                    className="font-medium text-gray-600 hover:text-gray-900
+                  px-5 py-3 flex items-center transition duration-150 ease-in-out"
+                  >
+                    Мой профиль
+                  </a>
+                </li>
+              )}
             </ul>
           </nav>
         </div>

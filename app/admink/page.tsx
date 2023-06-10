@@ -3,14 +3,14 @@
 import { useForm } from 'react-hook-form'
 import { loginFx } from '../api/auth'
 import { setAdmin } from '../context/admin'
+import { useRouter } from 'next/navigation'
 
 const Admink = () => {
+  const router = useRouter()
   const { register, handleSubmit } = useForm()
 
   const onSubmit = async (data) => {
     event?.preventDefault()
-
-    console.log('login', data)
 
     const { username, password } = data
 
@@ -25,9 +25,8 @@ const Admink = () => {
         return
       }
 
-      console.log('eeeeee')
       setAdmin(userData)
-      //   router.push(`/profile/${username}`)
+      router.push(`/admink/panel`)
     } catch (error) {
       console.log(error)
     }

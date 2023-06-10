@@ -2,7 +2,6 @@ import { createDomain } from 'effector-next'
 
 export interface IAdmin {
   username: string
-  userId: number | string
 }
 
 const admin = createDomain()

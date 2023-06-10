@@ -1,14 +1,22 @@
 'use client'
 
 import { getUserFx } from '@/app/api/user'
+import { $user } from '@/app/context/user'
+import useRedirectByUserCheck from '@/app/hooks/useRedirectByUserCheck'
+import { useStore } from 'effector-react'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function ProfilePage() {
+  useRedirectByUserCheck()
+
+  const profile = useStore($user)
+
   const [user, setUser] = useState('')
   const pathname = usePathname()
   const router = useRouter()
+  const [canEdit, setCanEdit] = useState(false)
 
   const getUserProfile = async (id: string) => {
     try {
@@ -33,10 +41,19 @@ export default function ProfilePage() {
     }
   }, [])
 
+  useEffect(() => {
+    console.log(user, profile)
+
+    if (user && profile && user.username === profile.username) {
+      setCanEdit(true)
+    }
+  }, [user])
+
   if (!user) {
     return <div />
   }
 
+  console.log(canEdit)
   return (
     <main className="profile-page">
       <section className="relative block h-500-px">
@@ -98,6 +115,7 @@ export default function ProfilePage() {
                     <div className="mr-4 p-3 text-center">
                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                         22
+                        {canEdit && <div>можно редактировать</div>}
                       </span>
                       <span className="text-sm text-blueGray-400">Friends</span>
                     </div>

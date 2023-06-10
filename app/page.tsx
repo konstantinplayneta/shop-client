@@ -7,7 +7,6 @@ import useRedirectByUserCheck from './hooks/useRedirectByUserCheck'
 
 export default function Home() {
   console.log('render')
-
   const { shouldLoadContent } = useRedirectByUserCheck()
 
   return (
