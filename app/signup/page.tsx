@@ -45,13 +45,13 @@ export default function Registration() {
   }
 
   return (
-    <div className="flex min-h-screen justify-center items-center">
+    <div className="flex min-h-screen justify-center items-center bg-white">
       <div className="container mx-auto py-8">
-        <h1 className="text-2xl font-bold mb-6 text-center">
-          Registration Form
+        <h1 className="text-2xl font-bold mb-6 text-center text-black-90">
+          Регистрация аккаунта
         </h1>
         <form
-          className="w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md"
+          className="w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-2xl"
           method="post"
           onSubmit={handleSubmit(onSubmit)}
         >
@@ -60,18 +60,18 @@ export default function Registration() {
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="name"
             >
-              Name
+              Логин
             </label>
             <input
               className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none`}
               type="text"
               id="name"
-              placeholder="John Doe"
+              placeholder="login"
               {...register('name', {
                 required: true,
                 pattern: {
-                  value: /[0-9a-zA-Z!@#$%^&*]{6,}/,
-                  message: 'short login',
+                  value: /^[a-zA-Z](.[a-zA-Z0-9_-]*)$/,
+                  message: 'Пароль должен содержать минимум 6 символов и состоять из латиницы',
                 },
               })}
             />
@@ -79,7 +79,7 @@ export default function Registration() {
               <span className="mb-3 text-normal text-red-500">
                 {errors.name.message
                   ? String(errors.name.message)
-                  : 'This field is required'}
+                  : 'Обязательное поле'}
               </span>
             )}
           </div>
@@ -94,12 +94,12 @@ export default function Registration() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
               type="email"
               id="email"
-              placeholder="john@example.com"
+              placeholder="example@example.com"
               {...register('email', {
                 required: true,
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                  message: 'Invalid email address',
+                  message: 'Неверный адрес электронной почты',
                 },
               })}
             />
@@ -107,7 +107,7 @@ export default function Registration() {
               <span className="mb-3 text-normal text-red-500">
                 {errors.email.message
                   ? String(errors.email.message)
-                  : 'This field is required'}
+                  : 'Обязательное поле'}
               </span>
             )}
           </div>
@@ -127,7 +127,7 @@ export default function Registration() {
                 required: true,
                 pattern: {
                   value: /[0-9a-zA-Z!@#$%^&*]{6,}/,
-                  message: 'Invalid password',
+                  message: 'Минимум 6 символов',
                 },
               })}
             />
@@ -135,7 +135,7 @@ export default function Registration() {
               <span className="mb-3 text-normal text-red-500">
                 {errors.password.message
                   ? String(errors.password.message)
-                  : 'This field is required'}
+                  : 'Обязательное поле'}
               </span>
             )}
           </div>
@@ -155,7 +155,7 @@ export default function Registration() {
                 required: true,
                 validate: (val: string) => {
                   if (watch('password') != val) {
-                    return 'Your passwords do no match'
+                    return 'Ваши пароли не совпадают'
                   }
                 },
               })}
@@ -164,16 +164,16 @@ export default function Registration() {
               <span className="mb-3 text-normal text-red-500">
                 {errors.confirmPassword.message
                   ? String(errors.confirmPassword.message)
-                  : 'This field is required'}
+                  : 'Обязательное поле'}
               </span>
             )}
           </div>
           <button
             className="w-full font-medium border-black bg-black text-white text-sm
-                      py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300"
+                      py-2 px-4 rounded-md hover:bg-black-50 transition duration-300"
             type="submit"
           >
-            Register
+            Создать
           </button>
         </form>
       </div>

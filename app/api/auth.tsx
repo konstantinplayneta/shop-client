@@ -1,6 +1,7 @@
 import { createEffect } from 'effector'
 import api from './axiosClient'
 import { AxiosError } from 'axios'
+import { toast } from 'react-toastify'
 
 interface IsignUpFx {
   url: string
@@ -19,10 +20,11 @@ export const signUpFx = createEffect(
     const { data } = await api.post(url, { username, password, email })
 
     if (data.warningMessage) {
-      console.log(data.warningMessage)
+      toast.warning(data.warningMessage)
       return
     }
 
+    toast.success('Регистрация прощла успешно!')
     return data
   }
 )
@@ -32,10 +34,11 @@ export const loginFx = createEffect(
     const { data } = await api.post(url, { username, password })
 
     if (data.warningMessage) {
-      console.log(data.warningMessage)
+      toast.warning(data.warningMessage)
       return
     }
 
+    toast.success('Вход выполнен!')
     return { username: data.username }
   }
 )
@@ -53,5 +56,6 @@ export const checkUserAuthFx = createEffect(async (url: string) => {
         return false
       }
     }
+    toast.error((error as Error).message)
   }
 })

@@ -1,13 +1,13 @@
-'use client'
+'use client';
 
-import { useStore } from 'effector-react'
-import { useState } from 'react'
-import { $user } from '../context/user'
+import { useStore } from 'effector-react';
+import { useState } from 'react';
+import { $user } from '../context/user';
 
 export default function Header() {
-  const [navbarOpen, setNavbarOpen] = useState(false)
-  const user = useStore($user)
-  console.log(user)
+  const user = useStore($user);
+
+  const [navbarOpen, setNavbarOpen] = useState(false);
 
   return (
     <div className="fixed top-0 w-full z-30 clearNav md:bg-opacity-90 transition duration-300 ease-in-out">
@@ -56,7 +56,35 @@ export default function Header() {
         >
           <nav className="flex-col flex-grow ">
             <ul className="flex flex-grow justify-end flex-wrap items-center">
-              {!user ? (
+              <li>
+                <a
+                  href={`/contact`}
+                  className="font-medium text-gray-600 hover:text-gray-900
+                  px-5 py-3 flex items-center transition duration-150 ease-in-out"
+                >
+                  Контакты
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`/tracking`}
+                  className="font-medium text-gray-600 hover:text-gray-900
+                  px-5 py-3 flex items-center transition duration-150 ease-in-out"
+                >
+                  Заказ
+                </a>
+              </li>
+              {user?.username ? (
+                <li>
+                  <a
+                    href={`/profile/${user.username}`}
+                    className="font-medium text-gray-600 hover:text-gray-900
+                                px-5 py-3 flex items-center transition duration-150 ease-in-out"
+                  >
+                    Мой профиль
+                  </a>
+                </li>
+              ) : (
                 <>
                   <li>
                     <a
@@ -77,21 +105,11 @@ export default function Header() {
                     </a>
                   </li>
                 </>
-              ) : (
-                <li>
-                  <a
-                    href={`/profile/${user.username}`}
-                    className="font-medium text-gray-600 hover:text-gray-900
-                  px-5 py-3 flex items-center transition duration-150 ease-in-out"
-                  >
-                    Мой профиль
-                  </a>
-                </li>
               )}
             </ul>
           </nav>
         </div>
       </div>
     </div>
-  )
+  );
 }

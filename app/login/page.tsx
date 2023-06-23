@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { loginFx } from '../api/auth'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { setUser } from '../context/user'
+import { toast } from 'react-toastify'
+import Image from 'next/image'
 
 interface IFormInputs {
   username: string
@@ -29,7 +31,7 @@ export default function Login() {
   }
 
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-    event?.preventDefault()
+    event.preventDefault()
 
     console.log('login', data)
 
@@ -46,9 +48,14 @@ export default function Login() {
       }
 
       setUser(userData)
+
       router.push(`/profile/${username}`)
     } catch (error) {
-      console.log(error)
+      if (error.response.status === 401) {
+        toast.warning('Пользователь не найден')
+      } else {
+        toast.warning(error.message)
+      }
     }
   }
 
@@ -57,64 +64,76 @@ export default function Login() {
       <div className="flex flex-row w-full">
         <div
           className="hidden lg:flex flex-col justify-between
-        bg-[#ffe85c] lg:p-8 xl:p-12 lg:max-w-sm xl:max-w-lg"
+        bg-[#85a5b870] lg:p-8 xl:p-12 lg:max-w-sm xl:max-w-lg"
         >
           <div className="flex items-center justify-start space-x-3">
-            <span className="bg-black rounded-full w-8 h-8" />
-            <a href="#" className="font-medium text-xl">
-              Unilfo
+            <Image
+              width={50}
+              height={50}
+              src={'/img/logo_gift.svg'}
+              alt="logo"
+            ></Image>
+            <a href="/" className="font-medium text-5xl pt-2">
+              ONLIGIFTS
             </a>
           </div>
           <div className="space-y-5">
             <h1 className="lg:text-3xl xl:text-5xl xl:leading-snug font-extrabold">
-              Enter your account and discover new experiences
+              Войдите в свою учетную запись и откройте для себя новые
+              впечатления
             </h1>
-            <p className="text-lg">You do not have an account?</p>
+            <p className="text-lg">У вас нет учетной записи?</p>
             <button
               className="inline-block flex-none px-4 py-3
               border-2 rounded-lg font-medium border-black
              bg-black text-white"
               onClick={redirectToSignUp}
             >
-              Create account here
+              Создайте учетную запись здесь
             </button>
           </div>
           <p className="font-medium" />
         </div>
 
         <div className="flex flex-1 flex-col items-center justify-center px-10 relative">
-          <div className="flex lg:hidden justify-between items-center w-full py-4">
+          <div className="flex lg:hidden justify-between items-center w-full py-4 flex-wrap">
             <div className="flex items-center justify-start space-x-3">
-              <span className="bg-black rounded-full w-6 h-6" />
-              <a href="#" className="font-medium text-lg">
-                Unilfo
+              <Image
+                width={30}
+                height={30}
+                src={'/img/logo_gift.svg'}
+                alt="logo"
+              ></Image>
+              <a href="/" className="font-medium text-2xl pt-2">
+                ONLYGIFTS
               </a>
             </div>
             <div className="flex flex-wrap items-center space-x-2 justify-center">
-              <span>Not a member? </span>
+              <span>Еще не зарегистрированы? </span>
               <a
                 href="/signup"
                 className="underline font-medium text-[#070eff]"
               >
-                Sign up now
+                Регистрация
               </a>
             </div>
           </div>
 
           <div className="flex flex-1 flex-col  justify-center space-y-5 max-w-md">
             <form className="" method="post" onSubmit={handleSubmit(onSubmit)}>
-              <div className="flex flex-col space-y-2 text-center">
+              <div className="flex flex-col space-y-2 text-center mb-5">
                 <h2 className="text-3xl md:text-4xl font-bold">
-                  Sign in to account
+                  Войти в аккаунт
                 </h2>
                 <p className="text-md md:text-xl">
-                  Sign up or log in to place the order,no password require!
+                  Зарегистрируйтесь или войдите в систему, чтобы разместить свой
+                  список подарков
                 </p>
               </div>
               <div className="flex flex-col max-w-md space-y-3">
                 <input
                   type="text"
-                  placeholder="username"
+                  placeholder="логин"
                   className="flex px-3 py-2 md:px-4 md:py-3 border-2
                 border-black rounded-lg font-medium placeholder:font-normal
                   border-transparent focus:border-transparent focus:ring-0"
@@ -126,13 +145,13 @@ export default function Login() {
                   <span className="mb-1 text-normal text-red-500">
                     {errors.username.message
                       ? String(errors.username.message)
-                      : 'This field is required'}
+                      : 'Обязательное поле'}
                   </span>
                 )}
                 <div className="relative w-full">
                   <input
                     type={isPasswordVisible ? 'text' : 'password'}
-                    placeholder="password"
+                    placeholder="пароль"
                     className="flex px-3 md:px-4 md:py-3 border-2
                     w-full border-black rounded-lg font-medium
                     placeholder:font-normal border-transparent
@@ -141,7 +160,7 @@ export default function Login() {
                       required: true,
                     })}
                   />
-                  <button
+                  <div
                     className="absolute inset-y-0 right-2 flex items-center px-4 text-gray-600"
                     onClick={togglePasswordVisibility}
                   >
@@ -188,19 +207,19 @@ export default function Login() {
                         />
                       </svg>
                     )}
-                  </button>
+                  </div>
                 </div>
                 {errors.password && (
                   <span className="mb-1 mt-0 text-normal text-red-500">
                     {errors.password.message
                       ? String(errors.password.message)
-                      : 'This field is required'}
+                      : 'Обязательное поле'}
                   </span>
                 )}
                 <button
                   className="flex items-center justify-center flex-none px-3 py-2
                   md:px-4 md:py-3 border-2 rounded-lg font-medium
-                border-black bg-black text-white"
+                border-black bg-black text-white "
                   type="submit"
                 >
                   Войти

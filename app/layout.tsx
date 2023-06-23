@@ -1,11 +1,13 @@
 import { attachLogger } from 'effector-logger'
 import './globals.css'
+import 'react-toastify/dist/ReactToastify.css'
+import ToastProvider from './components/TaoasterProvider'
 
 export const metadata = {
   title: 'GiftShop',
   description: 'Дари подарки',
   icons: {
-    icon: '/img/logo.svg',
+    icon: '/img/logo_gift.svg',
   },
 }
 
@@ -28,7 +30,9 @@ export default function RootLayout({
           href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <ToastProvider>{children}</ToastProvider>
+      </body>
     </html>
   )
 }

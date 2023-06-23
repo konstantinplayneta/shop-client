@@ -1,6 +1,8 @@
+import CookieHotification from './CookieNotification'
+
 export default function Footer() {
   return (
-    <footer className="pb-4">
+    <footer className="pb-4 xs:pt-10">
       <div className="max-w-6xl xl:max-w-6xl mx-auto divide-y divide-gray-200 px-4 sm:px-6 md:px-8">
         <ul
           className="Footer_nav__2rFid text-sm font-medium  sm:pb-20
@@ -11,9 +13,9 @@ export default function Footer() {
               className="text-sm w-full flex tracking-wide text-gray-900
             uppercase font-bold items-center justify-center"
             >
-              <span>Разместите свой список в</span>
+              <span>Не забудьте разместить свой список в</span>
             </h2>
-            <ul className="w-full flex justify-center items-center gap-6">
+            <ul className="w-full flex justify-center items-center gap-6 text-gray-600">
               <li>
                 <a
                   className="hover:text-gray-900 transition-colors duration-200 text-2xl"
@@ -46,7 +48,7 @@ export default function Footer() {
         pt-5 pb-4 border-t bg-top border-black"
         >
           <ul
-            className="flex w-full justify-center items-center space-y-2
+            className="flex w-full justify-center flex-col md:flex-row items-center space-y-2
           lg:mb-0 sm:space-y-0 sm:space-x-5 sm:flex-row"
           >
             <li>
@@ -60,7 +62,7 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="/"
+                href="/private-policy"
                 className="text-sm text-gray-400 transition-colors
                 duration-200 hover:text-gray-800 font-semibold"
               >
@@ -69,16 +71,17 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="/"
+                href="/policy-cookie"
                 className="text-sm text-gray-400 transition-colors
                 duration-200 hover:text-gray-800 font-semibold"
               >
-                Политика использования файлов cookie
+                политика использования файлов cookie
               </a>
             </li>
           </ul>
         </div>
       </div>
+      <CookieHotification />
     </footer>
   )
 }

@@ -12,7 +12,8 @@
     "prettier/prettier": [
       "error",
       {
-        "endOfLine": "auto"
+        "endOfLine": "auto",
+        "semi": 0
       }
     ],
     "@typescript-eslint/no-unused-vars": "error",

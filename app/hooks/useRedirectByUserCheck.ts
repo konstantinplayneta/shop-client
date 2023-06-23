@@ -7,6 +7,7 @@ import { setUser } from '../context/user'
 
 const useRedirectByUserCheck = (isAuthPage = false) => {
   const [shouldLoadContent, setShouldLoadContent] = useState(false)
+  const [loading, setLoading] = useState(true)
   const router = useRouter()
   const shouldCheckAuth = useRef(true)
 
@@ -18,19 +19,24 @@ const useRedirectByUserCheck = (isAuthPage = false) => {
   }, [])
 
   const checkUser = async () => {
+    setLoading(true)
     const user = await checkUserAuthFx('/users/login-check')
-    console.log('user', user)
 
     if (isAuthPage) {
+      setLoading(false)
       if (!user) {
         setShouldLoadContent(true)
         return
+      } else {
+        setUser(user)
+        setShouldLoadContent(true)
       }
 
       return
     }
 
     if (user) {
+      setLoading(false)
       setUser(user)
       setShouldLoadContent(true)
       return
@@ -39,7 +45,7 @@ const useRedirectByUserCheck = (isAuthPage = false) => {
     router.push('/login')
   }
 
-  return { shouldLoadContent }
+  return { shouldLoadContent, loading }
 }
 
 export default useRedirectByUserCheck

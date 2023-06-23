@@ -9,6 +9,9 @@ module.exports = {
   darkMode: false,
   theme: {
     extend: {
+      screens: {
+        xs: '360px',
+      },
       colors: {
         gray: {
           100: '#FBFBFB',
