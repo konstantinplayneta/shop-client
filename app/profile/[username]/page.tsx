@@ -9,6 +9,7 @@ import useRedirectByUserCheck from '@/app/hooks/useRedirectByUserCheck'
 import { useStore } from 'effector-react'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
+import router from 'next/router'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -61,27 +62,11 @@ export default function ProfilePage() {
     { plapform: 'twitch', url: user?.twitch },
   ]
 
-  const makePay = async (price, item) => {
-    console.log(user, profile)
+  const showLink =
+    user?.instagram && user?.onlyfans && user?.youtube && user?.twitch
 
-    try {
-      const data = await makePaymentFx({
-        url: '/payment',
-        amount: price,
-        description: `Заказ №1 rrr${item} fggfg`,
-        return_url: `http://localhost:3001/profile/${user.username}`,
-      })
+  const items = []
 
-      console.log(
-        'data.confirmation.confirmation_url',
-        data.confirmation.confirmation_url
-      )
-
-      router.push(data.confirmation.confirmation_url)
-    } catch (error) {
-      toast.warning((error as Error).message)
-    }
-  }
   return (
     <>
       <Header />
@@ -205,23 +190,25 @@ export default function ProfilePage() {
                 </div>
                 <div className="text-center mt-12">
                   <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700">
-                    {user?.username ? (
-                      <div>{user?.username}</div>
-                    ) : (
-                      <div>упс пусто</div>
-                    )}
+                    {user?.username ? user?.username : 'упс пусто'}
                   </h3>
                   <div className="text-sm leading-normal mt-0 mb-5 text-blueGray-400 font-bold uppercase">
                     <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400 cursor-pointer" />
-                    {user?.sity}
+                    {user?.sity ? user?.sity : <div>Добавьте город</div>}
                   </div>
-                  <SocialList links={links} />
+                  {showLink ? (
+                    <SocialList links={links} />
+                  ) : (
+                    <div>Добавьте соцсети</div>
+                  )}
                 </div>
                 <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                   <div className="flex flex-wrap justify-center">
                     <div className="w-full lg:w-9/12 px-4">
                       <p className="mb-4 text-lg leading-relaxed text-center text-blueGray-700">
-                        {user?.description}
+                        {user?.description
+                          ? user?.description
+                          : 'Добавьте описание'}
                       </p>
                     </div>
                   </div>
@@ -241,105 +228,18 @@ export default function ProfilePage() {
                               items-stretch w-full xl:space-x-8 space-y-4
                               md:space-y-6 xl:space-y-0"
                   >
-                    <div className="flex flex-col justify-start items-start w-full space-y-2 md:space-y-2 xl:space-y-4">
-                      {[1, 2, 3].map((el) => (
-                        <div
-                          className="flex flex-col justify-start items-start
-                                  bg-white rounded-xl px-4 py-4
-                                  md:py-6 md:p-6 xl:p-8 w-full"
-                          key={el}
-                        >
-                          <div
-                            className="mt-4 py-6 px-6 md:mt-6 flex flex-col
-                                    md:flex-row hover:shadow-2xl hover:scale-105
-                                    transition-all transform duration-500 justify-start
-                                    items-start md:items-center md:space-x-6
-                                    xl:space-x-8 w-full"
-                          >
-                            <div className="pb-4 md:pb-8 md:w-40">
-                              <Image
-                                className="w-full hidden md:block"
-                                src="https://i.ibb.co/84qQR4p/Rectangle-10.png"
-                                alt="dress"
-                                width={400}
-                                height={400}
-                              />
-                              <Image
-                                className="w-full md:hidden"
-                                src="https://i.ibb.co/L039qbN/Rectangle-10.png"
-                                alt="dress"
-                                width={400}
-                                height={400}
-                              />
-                            </div>
-                            {canEdit && (
-                              <div className="absolute z-2 w-10 h-10 cursor-pointer right-1 xs:left-6">
-                                <svg
-                                  fill="none"
-                                  stroke="#eaeaea"
-                                  strokeWidth="1.5"
-                                  viewBox="0 0 24 24"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  aria-hidden="true"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
-                                  />
-                                </svg>
-                              </div>
-                            )}
-                            <div
-                              className=" md:flex-row flex-col flex
-                                      justify-between items-start w-full
-                                      pb-8 space-y-4 md:space-y-0"
-                            >
-                              <div className="w-full flex flex-col justify-start items-start space-y-8">
-                                <h3 className="text-xl text-blueGray-700 xl:text-2xl font-semibold leading-6 ">
-                                  Платье
-                                </h3>
-                                <div className="flex justify-start items-start flex-col space-y-2">
-                                  <p className="text-sm text-blueGray-700 leading-none text-gray-800">
-                                    <span className="dark:text-gray-400 text-gray-300">
-                                      Стиль:
-                                    </span>
-                                    Итальянский дизайн
-                                  </p>
-                                  <p className="text-sm text-blueGray-700 leading-none text-gray-800">
-                                    <span className="dark:text-gray-400 text-gray-300">
-                                      Размер:
-                                    </span>
-                                    xs
-                                  </p>
-                                  <p className="text-sm text-blueGray-700 leading-none text-gray-800">
-                                    <span className="dark:text-gray-400 text-gray-300">
-                                      Цвет:
-                                    </span>
-                                    Розовый
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="flex justify-between space-x-8 items-start w-full">
-                                <p className="text-base text-blueGray-700 xl:text-lg leading-6">
-                                  1000.00р
-                                </p>
-                              </div>
-                              <button
-                                className="text-lg block font-semibold py-2 px-6
-                                         text-green-100 hover:text-white bg-green-400
-                                          rounded-lg shadow hover:shadow-md transition duration-300
-                                          focus:outline-none self-end"
-                                onClick={() =>
-                                  makePay('100', '23Premium Quaility Dress')
-                                }
-                              >
-                                Подарить
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                    <div className="flex flex-col justify-start items-center w-full space-y-2 md:space-y-2 xl:space-y-4">
+                      {items.length > 0
+                        ? items.map((el) => <Item el={el} key={el} />)
+                        : <div
+                        className="inline-flex items-center px-14 py-3 mt-2
+                      ml-2 font-medium text-gray-600 transition duration-500
+                      ease-in-out transform bg-transparent border rounded-lg bg-gray-900
+                       hover:text-gray-900 hover:border-gray-900 cursor-pointer mb-10 
+                       "
+                      >
+                        <span className="justify-center">Создать список</span>
+                      </div>}
                     </div>
                   </div>
                 </div>
@@ -360,5 +260,124 @@ export default function ProfilePage() {
         </section>
       </main>
     </>
+  )
+}
+
+const Item = (el) => {
+  const [canEdit, setCanEdit] = useState(false)
+
+  const makePay = async (price, item) => {
+    console.log(user, profile)
+
+    try {
+      const data = await makePaymentFx({
+        url: '/payment',
+        amount: price,
+        description: `Заказ №1 rrr${item} fggfg`,
+        return_url: `http://localhost:3001/profile/${user.username}`,
+      })
+
+      console.log(
+        'data.confirmation.confirmation_url',
+        data.confirmation.confirmation_url
+      )
+
+      router.push(data.confirmation.confirmation_url)
+    } catch (error) {
+      toast.warning((error as Error).message)
+    }
+  }
+
+  return (
+    <div
+      className="flex flex-col justify-start items-start
+            bg-white rounded-xl px-4 py-4
+            md:py-6 md:p-6 xl:p-8 w-full"
+      key={el}
+    >
+      <div
+        className="mt-4 py-6 px-6 md:mt-6 flex flex-col
+              md:flex-row hover:shadow-2xl hover:scale-105
+              transition-all transform duration-500 justify-start
+              items-start md:items-center md:space-x-6
+              xl:space-x-8 w-full"
+      >
+        <div className="pb-4 md:pb-8 md:w-40">
+          <Image
+            className="w-full hidden md:block"
+            src="https://i.ibb.co/84qQR4p/Rectangle-10.png"
+            alt="dress"
+            width={400}
+            height={400}
+          />
+          <Image
+            className="w-full md:hidden"
+            src="https://i.ibb.co/L039qbN/Rectangle-10.png"
+            alt="dress"
+            width={400}
+            height={400}
+          />
+        </div>
+        {canEdit && (
+          <div className="absolute z-2 w-10 h-10 cursor-pointer right-1 xs:left-6">
+            <svg
+              fill="none"
+              stroke="#eaeaea"
+              strokeWidth="1.5"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
+              />
+            </svg>
+          </div>
+        )}
+        <div
+          className=" md:flex-row flex-col flex
+                justify-between items-start w-full
+                pb-8 space-y-4 md:space-y-0"
+        >
+          <div className="w-full flex flex-col justify-start items-start space-y-8">
+            <h3 className="text-xl text-blueGray-700 xl:text-2xl font-semibold leading-6 ">
+              Платье
+            </h3>
+            <div className="flex justify-start items-start flex-col space-y-2">
+              <p className="text-sm text-blueGray-700 leading-none text-gray-800">
+                <span className="dark:text-gray-400 text-gray-300">Стиль:</span>
+                Итальянский дизайн
+              </p>
+              <p className="text-sm text-blueGray-700 leading-none text-gray-800">
+                <span className="dark:text-gray-400 text-gray-300">
+                  Размер:
+                </span>
+                xs
+              </p>
+              <p className="text-sm text-blueGray-700 leading-none text-gray-800">
+                <span className="dark:text-gray-400 text-gray-300">Цвет:</span>
+                Розовый
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-between space-x-8 items-start w-full">
+            <p className="text-base text-blueGray-700 xl:text-lg leading-6">
+              1000.00р
+            </p>
+          </div>
+          <button
+            className="text-lg block font-semibold py-2 px-6
+                   text-green-100 hover:text-white bg-green-400
+                    rounded-lg shadow hover:shadow-md transition duration-300
+                    focus:outline-none self-end"
+            onClick={() => makePay('100', '23Premium Quaility Dress')}
+          >
+            Подарить
+          </button>
+        </div>
+      </div>
+    </div>
   )
 }

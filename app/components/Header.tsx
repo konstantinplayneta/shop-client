@@ -1,13 +1,23 @@
-'use client';
+'use client'
 
-import { useStore } from 'effector-react';
-import { useState } from 'react';
-import { $user } from '../context/user';
+import { useStore } from 'effector-react'
+import { useState } from 'react'
+import { $user } from '../context/user'
+import { logoutFx } from '../api/auth'
 
 export default function Header() {
-  const user = useStore($user);
+  const user = useStore($user)
+  const [navbarOpen, setNavbarOpen] = useState(false)
 
-  const [navbarOpen, setNavbarOpen] = useState(false);
+  const logout = async () => {
+    try {
+      await logoutFx({ url: '/users/logout' })
+
+      window.location.replace('/')
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="fixed top-0 w-full z-30 clearNav md:bg-opacity-90 transition duration-300 ease-in-out">
@@ -75,15 +85,26 @@ export default function Header() {
                 </a>
               </li>
               {user?.username ? (
-                <li>
-                  <a
-                    href={`/profile/${user.username}`}
-                    className="font-medium text-gray-600 hover:text-gray-900
+                <>
+                  <li>
+                    <a
+                      href={`/profile/${user.username}`}
+                      className="font-medium text-gray-600 hover:text-gray-900
                                 px-5 py-3 flex items-center transition duration-150 ease-in-out"
-                  >
-                    Мой профиль
-                  </a>
-                </li>
+                    >
+                      Мой профиль
+                    </a>
+                  </li>
+                  <li>
+                    <p
+                      className="font-medium text-gray-600 hover:text-gray-900
+                                px-5 py-3 flex items-center transition duration-150 ease-in-out cursor-pointer"
+                      onClick={logout}
+                    >
+                      Выйти
+                    </p>
+                  </li>
+                </>
               ) : (
                 <>
                   <li>
@@ -111,5 +132,5 @@ export default function Header() {
         </div>
       </div>
     </div>
-  );
+  )
 }

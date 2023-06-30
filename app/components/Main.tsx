@@ -24,7 +24,7 @@ export default function Main() {
       <form action="">
         <div
           className="max-w-7xl mx-auto flex px-5 xs:pt-28 md:py-28 
-        md:flex-row flex-col items-start md:w-full 
+        md:flex-row flex-col items-start md:items-start xs:items-center md:w-full 
         md:justify-between md:gap-10"
         >
           <div className="lg:flex-grow md:w-1/2 w-600-px md:ml-24 pt-6 flex flex-col md:items-start md:mb-40 xs:mb-5 items-center text-center">

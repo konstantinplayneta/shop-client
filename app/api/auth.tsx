@@ -8,6 +8,15 @@ interface IsignUpFx {
   username: string
   password: string
   email: string
+  sex: string
+  age: string
+  sity: string
+  status: string
+  description: string
+  instagram: string
+  onlyfans: string
+  youtube: string
+  image: string
 }
 
 interface IloginFx {
@@ -16,8 +25,35 @@ interface IloginFx {
   username: string
 }
 export const signUpFx = createEffect(
-  async ({ url, username, password, email }: IsignUpFx) => {
-    const { data } = await api.post(url, { username, password, email })
+  async ({
+    url,
+    username,
+    password,
+    email,
+    sex,
+    age,
+    sity,
+    status,
+    description,
+    instagram,
+    onlyfans,
+    youtube,
+    image,
+  }: IsignUpFx) => {
+    const { data } = await api.post(url, {
+      username,
+      password,
+      email,
+      sex,
+      age,
+      sity,
+      status,
+      description,
+      instagram,
+      onlyfans,
+      youtube,
+      image,
+    })
 
     if (data.warningMessage) {
       toast.warning(data.warningMessage)
@@ -58,4 +94,16 @@ export const checkUserAuthFx = createEffect(async (url: string) => {
     }
     toast.error((error as Error).message)
   }
+})
+
+export const logoutFx = createEffect(async ({ url }) => {
+  const { data } = await api.get(url)
+
+  if (data.warningMessage) {
+    toast.warning(data.warningMessage)
+    return
+  }
+
+  toast.success('Успешно')
+  return
 })

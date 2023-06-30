@@ -11,6 +11,19 @@ interface IFormInputs {
   confirmPassword: string
 }
 
+const initUserData = {
+  sex: '',
+  age: '123',
+  sity: '',
+  status: 'active',
+  description: '',
+  instagram: '',
+  onlyfans: '',
+  youtube: '',
+  image:
+    'https://loremflickr.com/640/480/technics?random=144263469174908679338040957031',
+}
+
 export default function Registration() {
   const router = useRouter()
 
@@ -25,6 +38,12 @@ export default function Registration() {
     event?.preventDefault()
 
     const { email, name, password } = data
+    console.log({
+      username: name,
+      password: password,
+      email: email,
+      ...initUserData,
+    })
 
     try {
       const userData = await signUpFx({
@@ -32,6 +51,7 @@ export default function Registration() {
         username: name,
         password: password,
         email: email,
+        ...initUserData,
       })
 
       if (!userData) {
@@ -71,7 +91,8 @@ export default function Registration() {
                 required: true,
                 pattern: {
                   value: /^[a-zA-Z](.[a-zA-Z0-9_-]*)$/,
-                  message: 'Пароль должен содержать минимум 6 символов и состоять из латиницы',
+                  message:
+                    'Пароль должен содержать минимум 6 символов и состоять из латиницы',
                 },
               })}
             />
