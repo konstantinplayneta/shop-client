@@ -3,6 +3,7 @@
 import { makePaymentFx } from '@/app/api/payment'
 import { getUserFx } from '@/app/api/user'
 import Header from '@/app/components/Header'
+import Modal from '@/app/components/Modal'
 import SocialList from '@/app/components/SocialList'
 import { $user } from '@/app/context/user'
 import useRedirectByUserCheck from '@/app/hooks/useRedirectByUserCheck'
@@ -12,6 +13,8 @@ import { usePathname, useRouter } from 'next/navigation'
 import router from 'next/router'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import InputFileButton from '@/app/components/InputFile'
+
 
 export default function ProfilePage() {
   useRedirectByUserCheck(true)
@@ -22,6 +25,7 @@ export default function ProfilePage() {
   const pathname = usePathname()
   const router = useRouter()
   const [canEdit, setCanEdit] = useState(false)
+  const [showProfileModal, setShowProfileModal] = useState(false)
 
   const getUserProfile = async (id: string) => {
     try {
@@ -55,6 +59,19 @@ export default function ProfilePage() {
   if (!user) {
     return <div />
   }
+
+  const profileModal = () => {
+    setShowProfileModal(true)
+  }
+
+  const editAvatar = async () => {
+    console.log('editAvatar')
+  }
+
+  const editBackground = () => {
+    console.log('editBackground')
+  }
+
   const links = [
     { plapform: 'instagram', url: user?.instagram },
     { plapform: 'onlyfans', url: user?.onlyfans },
@@ -71,37 +88,34 @@ export default function ProfilePage() {
     <>
       <Header />
       <main className="profile-page">
-        <section className="relative block h-500-px">
+        <section className="relative block h-500-px z-2">
           <div
-            className="absolute top-0 w-full h-full bg-center bg-cover"
+            className="absolute top-0 w-full h-96 bg-center bg-cover"
             style={{
-              backgroundImage:
-                // eslint-disable-next-line max-len
-                "url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80')",
+              backgroundImage: `url('/img/background.jpeg')`,
             }}
           >
             <span
               id="blackOverlay"
               className="w-full h-full absolute opacity-50 bg-black"
             />
-            {canEdit && (
-              <div className="absolute top-4 right-4 cursor-pointer w-8 mt-20">
-                <svg
-                  fill="none"
-                  stroke="#eaeaea"
-                  strokeWidth="1.5"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
-                  />
-                </svg>
-              </div>
-            )}
+            <InputFileButton>
+              {canEdit && (
+                <div className="relative cursor-pointer left-[95%] xs:left-[90%] w-8 mt-20">
+                  <svg
+                    className="text-gray-800 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 18"
+                    onClick={editBackground}
+                  >
+                    <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z" />
+                    <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z" />
+                  </svg>
+                </div>
+              )}
+            </InputFileButton>
           </div>
           <div
             className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"
@@ -123,43 +137,56 @@ export default function ProfilePage() {
             </svg>
           </div>
         </section>
-        <section className="relative py-16 bg-blueGray-200">
+        <section className="py-16 bg-blueGray-200">
           <div className="container mx-auto px-4">
-            <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
+            <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-60">
               <div className="px-6">
                 <div className="flex flex-wrap justify-center">
                   <div className="w-full lg:w-3/12 h-full px-4 lg:order-2 flex justify-center">
                     <div className="relative flex justify-center items-center">
-                      {canEdit && (
-                        <div className="absolute z-2 w-10 h-10 cursor-pointer pr-1">
-                          <svg
-                            fill="none"
-                            stroke="#eaeaea"
-                            strokeWidth="1.5"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                            aria-hidden="true"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25"
-                            />
-                          </svg>
-                        </div>
-                      )}
+                      <InputFileButton>
+                        {canEdit && (
+                          <div className="absolute left-[42%] z-2 w-10 h-10 -top-2 cursor-pointer">
+                            <svg
+                              className="text-gray-800 dark:text-white"
+                              aria-hidden="true"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="currentColor"
+                              viewBox="0 0 20 18"
+                              onClick={editAvatar}
+                            >
+                              <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z" />
+                              <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z" />
+                            </svg>
+                          </div>
+                        )}
+                      </InputFileButton>
                       <Image
                         alt="avatar"
                         width={200}
                         height={200}
                         src={user?.image}
-                        className="shadow-xl rounded-full align-middle
-                       border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px h-[150px] object-cover"
+                        className="static shadow-xl rounded-full align-middle
+                       border-none -m-16 lg:-ml-16 h-[150px] w-72 object-cover"
                       />
                     </div>
                   </div>
                   <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-                    <div className="py-6 px-3 md:mt-20 sm:mt-0 xs:mt-0" />
+                    <div className="py-6 px-3 sm:mt-0 xs:mt-0">
+                      {canEdit && (
+                        <svg
+                          className="text-gray-800 dark:text-gray-400 w-10 h-10 absolute right-2 cursor-pointer"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor"
+                          viewBox="0 0 20 18"
+                          onClick={profileModal}
+                        >
+                          <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z" />
+                          <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z" />
+                        </svg>
+                      )}
+                    </div>
                   </div>
                   <div className="w-full lg:w-4/12 px-4 lg:order-1">
                     <div className="flex justify-center py-4 lg:pt-4 pt-8">
@@ -229,17 +256,19 @@ export default function ProfilePage() {
                               md:space-y-6 xl:space-y-0"
                   >
                     <div className="flex flex-col justify-start items-center w-full space-y-2 md:space-y-2 xl:space-y-4">
-                      {items.length > 0
-                        ? items.map((el) => <Item el={el} key={el} />)
-                        : <div
-                        className="inline-flex items-center px-14 py-3 mt-2
+                      {items.length > 0 ? (
+                        items.map((el) => <Item el={el} key={el} />)
+                      ) : (
+                        <div
+                          className="inline-flex items-center px-14 py-3 mt-2
                       ml-2 font-medium text-gray-600 transition duration-500
                       ease-in-out transform bg-transparent border rounded-lg bg-gray-900
                        hover:text-gray-900 hover:border-gray-900 cursor-pointer mb-10 
                        "
-                      >
-                        <span className="justify-center">Создать список</span>
-                      </div>}
+                        >
+                          <span className="justify-center">Создать список</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -259,6 +288,13 @@ export default function ProfilePage() {
           </footer>
         </section>
       </main>
+      {showProfileModal && (
+        <Modal
+          show={showProfileModal}
+          setShowProfileModal={setShowProfileModal}
+          profile={user}
+        />
+      )}
     </>
   )
 }

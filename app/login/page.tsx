@@ -33,8 +33,6 @@ export default function Login() {
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     event.preventDefault()
 
-    console.log('login', data)
-
     const { username, password } = data
     try {
       const userData = await loginFx({
@@ -136,7 +134,7 @@ export default function Login() {
                   placeholder="логин"
                   className="flex px-3 py-2 md:px-4 md:py-3 border-2
                 border-black rounded-lg font-medium placeholder:font-normal
-                  border-transparent focus:border-transparent focus:ring-0"
+                  focus:ring-0"
                   {...register('username', {
                     required: true,
                   })}
@@ -154,8 +152,7 @@ export default function Login() {
                     placeholder="пароль"
                     className="flex px-3 md:px-4 md:py-3 border-2
                     w-full border-black rounded-lg font-medium
-                    placeholder:font-normal border-transparent
-                    focus:border-transparent focus:ring-0"
+                    placeholder:font-normal  focus:ring-0"
                     {...register('password', {
                       required: true,
                     })}

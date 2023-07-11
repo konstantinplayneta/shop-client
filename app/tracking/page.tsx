@@ -1,142 +1,74 @@
-/* eslint-disable max-len */
 'use client'
 
+import { useEffect, useState } from 'react'
+import { getOrderFx } from '../api/order'
 import Header from '../components/Header'
 import useRedirectByUserCheck from '../hooks/useRedirectByUserCheck'
+import { ExportDetails } from '../components/OrderDetails'
+
+const EmptyText = () => {
+  return <div className='text-center items-center justify-center'>Введите номер заказа для получения дополнительной информации</div>
+}
 
 const OrderTracking = () => {
   const { shouldLoadContent, loading } = useRedirectByUserCheck(true)
+  const [orderId, setOrderId] = useState('')
+  const [item, setItem] = useState('')
+  const [showNotFound, setShowNotFound] = useState(false)
 
   if (loading) {
     return <div />
   }
-  
+
+  const checkOrder = async () => {
+    if (!orderId.trim()) {
+      return
+    }
+    setShowNotFound(false)
+
+    let { order } = await getOrderFx({ url: `orders/find/${orderId.trim()}` })
+
+    if (order) {
+      console.log('item', order)
+      setItem(order)
+    } else {
+      setShowNotFound(true)
+    }
+  }
+
   return (
     <>
       {shouldLoadContent && (
         <>
           <Header />
-          <div className="flex items-center container max-w-xl py-4 mt-20">
-            <div className="flex overflow-hidden w-full">
-              <input
-                type="text"
-                className="w-11/12 rounded-lg border-transparent focus:border-transparent focus:ring-0"
-              />
-              <button className="bg-gray-900 hover:bg-gray-700 focus:outline-none text-white px-6 text-lg font-semibold rounded-r-md relative right-2">
-                Поиск
-              </button>
+          <div className="container flex flex-col items-center justify-center">
+            <div className="w-9/12 max-w-xl py-4 mt-20">
+              <div className=" flex overflow-hidden w-full">
+                <input
+                  type="text"
+                  className="shadow-sm bg-gray-50 border 
+                  text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full
+                 p-2.5   dark:placeholder-gray-400 border-gray-300
+                  dark:text-gray-700 dark:focus:ring-primary-500 dark:focus:border-primary-500
+                  dark:shadow-sm-light focus:ring-0"
+                  value={orderId}
+                  onChange={(e) => setOrderId(e.target.value)}
+                />
+                <button
+                  className="bg-gray-900 hover:bg-gray-700 focus:outline-none
+                 text-white px-6 text-lg font-semibold rounded-r-md relative right-2"
+                  onClick={checkOrder}
+                >
+                  Поиск
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center justify-center pt-10">
-            <ol className="relative text-gray-500 border-l border-gray-200 dark:border-gray-700 dark:text-gray-400">
-              <li className="mb-10 ml-6">
-                <span className="absolute flex items-center justify-center w-8 h-8 bg-green-200 rounded-full -left-4 ring-4 ring-white ">
-                  <svg
-                    aria-hidden="true"
-                    className="w-5 h-5 text-green-500 dark:text-green-400"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </span>
-                <h3 className="font-medium leading-tight">Оплата</h3>
-                <p className="text-sm">успешно</p>
-              </li>
-              <li className="mb-10 ml-6">
-                <span className="absolute flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full -left-4 ring-4 ring-white ">
-                  <svg
-                    aria-hidden="true"
-                    className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </span>
-                <h3 className="font-medium leading-tight">
-                  Обработанно и отправленно
-                </h3>
-                <p className="text-sm">информация появится позже</p>
-              </li>
-              <li className="mb-10 ml-6">
-                <span className="absolute flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full -left-4 ring-4 ring-white ">
-                  <svg
-                    aria-hidden="true"
-                    className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-                    <path
-                      fillRule="evenodd"
-                      d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </span>
-                <h3 className="font-medium leading-tight">В пути</h3>
-                <p className="text-sm">информация появится позже</p>
-              </li>
-              <li className="ml-6">
-                <span className="absolute flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full -left-4 ring-4 ring-white ">
-                  <svg
-                    aria-hidden="true"
-                    className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-                    <path
-                      fillRule="evenodd"
-                      d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </span>
-                <h3 className="font-medium leading-tight">Доставленно</h3>
-                <p className="text-sm">информация появится позже</p>
-              </li>
-            </ol>
-          </div>
-          <div
-            id="dropdownHoverTop"
-            className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-          >
-            <ul
-              className="py-2 text-sm text-gray-700 dark:text-gray-200"
-              aria-labelledby="dropdownHoverButton"
-            >
-              <li>
-                <a
-                  href="/login"
-                  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                  Login
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/contact"
-                  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                  Constact
-                </a>
-              </li>
-              <li />
-            </ul>
+            {showNotFound && <div>Заказ не найден</div>}
+            {item && !showNotFound ? (
+              <ExportDetails item={item} />
+            ) : (
+              <EmptyText />
+            )}
           </div>
         </>
       )}

@@ -30,7 +30,7 @@ export default function Main() {
           <div className="lg:flex-grow md:w-1/2 w-600-px md:ml-24 pt-6 flex flex-col md:items-start md:mb-40 xs:mb-5 items-center text-center">
             <h1 className="mb-5 sm:text-6xl text-5xl items-center Avenir md:w-2/2 text-gray-900">
               Создайте свой уникальный список желаний, чтобы близкие и друзья
-              дарили самые важные для вас подарки.
+              дарили самые важные для вас подарки
             </h1>
             <p className="mb-4 xl:w-2/2 text-gray-600 text-lg">
               Просто составьте список желаний, отправьте ссылку друзьям через

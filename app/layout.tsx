@@ -21,14 +21,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link
-          rel="stylesheet"
-          href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css"
-        />
-        <link
-          rel="stylesheet"
-          href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
-        />
       </head>
       <body>
         <ToastProvider>{children}</ToastProvider>
