@@ -31,7 +31,9 @@ export const updateUserFx = createEffect(
     instagram,
     onlyfans,
     youtube,
+    twitch,
     image,
+    background,
   }) => {
     const { user } = await api.patch(url, {
       username,
@@ -45,7 +47,9 @@ export const updateUserFx = createEffect(
       instagram,
       onlyfans,
       youtube,
+      twitch,
       image,
+      background,
     })
 
     if (user?.warningMessage) {

@@ -14,7 +14,11 @@ import router from 'next/router'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import InputFileButton from '@/app/components/InputFile'
+import { AdvancedImage } from '@cloudinary/react'
+import { Cloudinary } from '@cloudinary/url-gen'
 
+import { fill } from '@cloudinary/url-gen/actions/resize'
+import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity'
 
 export default function ProfilePage() {
   useRedirectByUserCheck(true)
@@ -26,6 +30,15 @@ export default function ProfilePage() {
   const router = useRouter()
   const [canEdit, setCanEdit] = useState(false)
   const [showProfileModal, setShowProfileModal] = useState(false)
+
+  const showProfileModalFn = (show, reload) => {
+    setShowProfileModal(show)
+    if (reload) {
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000)
+    }
+  }
 
   const getUserProfile = async (id: string) => {
     try {
@@ -80,9 +93,20 @@ export default function ProfilePage() {
   ]
 
   const showLink =
-    user?.instagram && user?.onlyfans && user?.youtube && user?.twitch
+    user?.instagram || user?.onlyfans || user?.youtube || user?.twitch
 
   const items = []
+
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: 'dzx0xfcgn',
+    },
+  })
+
+  console.log(user);
+  
+  const myImage = cld.image(user?.image || 'r3uycl1t4qzr8sysygco')
+  myImage.resize(fill().width(200).height(300).gravity(autoGravity()))
 
   return (
     <>
@@ -92,14 +116,14 @@ export default function ProfilePage() {
           <div
             className="absolute top-0 w-full h-96 bg-center bg-cover"
             style={{
-              backgroundImage: `url('/img/background.jpeg')`,
+              backgroundImage: `url(${user?.background || 'https://res.cloudinary.com/dzx0xfcgn/image/upload/v1689266506/tuthtosukzi2rx499o1c.jpg'})`,
             }}
           >
             <span
               id="blackOverlay"
               className="w-full h-full absolute opacity-50 bg-black"
             />
-            <InputFileButton>
+            <InputFileButton bg={true}>
               {canEdit && (
                 <div className="relative cursor-pointer left-[95%] xs:left-[90%] w-8 mt-20">
                   <svg
@@ -161,11 +185,8 @@ export default function ProfilePage() {
                           </div>
                         )}
                       </InputFileButton>
-                      <Image
-                        alt="avatar"
-                        width={200}
-                        height={200}
-                        src={user?.image}
+                      <AdvancedImage
+                        cldImg={myImage}
                         className="static shadow-xl rounded-full align-middle
                        border-none -m-16 lg:-ml-16 h-[150px] w-72 object-cover"
                       />
@@ -195,7 +216,7 @@ export default function ProfilePage() {
                           1M
                         </span>
                         <span className="text-sm text-blueGray-400">
-                          Подпищики
+                          Подписчики
                         </span>
                       </div>
                       <div className="mr-4 p-3 text-center">
@@ -291,7 +312,7 @@ export default function ProfilePage() {
       {showProfileModal && (
         <Modal
           show={showProfileModal}
-          setShowProfileModal={setShowProfileModal}
+          showProfileModalFn={showProfileModalFn}
           profile={user}
         />
       )}

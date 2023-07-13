@@ -13,13 +13,14 @@ interface IFormInputs {
 
 const initUserData = {
   sex: '',
-  age: '123',
+  age: '',
   sity: '',
   status: 'active',
   description: '',
   instagram: '',
   onlyfans: '',
   youtube: '',
+  twitch: '',
   image:
     'https://loremflickr.com/640/480/technics?random=144263469174908679338040957031',
 }

@@ -1,16 +1,21 @@
 const SocialLink = ({ link }) => {
-  console.log('SocialLink', link)
   return (
-    <div className="mb-2 text-blueGray-600 cursor-pointer">
+    <>
       {link?.url && (
-        <>
-          <i
-            className={`fas fa-briefcase mr-2 text-lg text-blueGray-400 ${link.platform} `}
-          />
-          {link.url}
-        </>
+        <div className="mb-2 text-blueGray-600 cursor-pointer">
+          <ul className="w-full flex justify-center items-center gap-6 text-gray-600">
+            <li>
+              <a
+                className="hover:text-gray-900 transition-colors duration-200 text-2xl"
+                href={link?.url}
+              >
+                {link?.plapform}
+              </a>
+            </li>
+          </ul>
+        </div>
       )}
-    </div>
+    </>
   )
 }
 

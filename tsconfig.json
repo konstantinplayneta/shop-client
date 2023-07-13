@@ -36,7 +36,7 @@
     ".next/types/**/*.ts",
     "app/contact/page.jsx",
     "app/profile/[username]/page.tsx"
-  ],
+, "app/components/InputFile/index.jsx"  ],
   "exclude": [
     "node_modules"
   ]

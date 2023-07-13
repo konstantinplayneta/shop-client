@@ -1,6 +1,6 @@
 import SocialLink from '../SocialLink'
 const SocialList = ({ links }) => (
-  <div className="flex flex-wrap md:justify-between items-center text-center pl-10 pr-10 sm:justify-center mt-7">
+  <div className="flex flex-wrap items-center text-center pl-10 pr-10 gap-24 justify-center mt-7">
     {links.map((link, index) => (
       <SocialLink key={index} link={link} />
     ))}

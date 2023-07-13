@@ -1,8 +1,6 @@
 import Image from 'next/image'
 
 const AvatarMenu = () => {
-  console.log(123)
-
   return (
     <div className="relative ml-3">
       <div className="fixed bottom-0 right-0">

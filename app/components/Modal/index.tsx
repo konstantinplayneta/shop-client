@@ -5,7 +5,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-const Modal = ({ show = false, setShowProfileModal, profile }) => {
+const Modal = ({ show = false, showProfileModalFn, profile }) => {
   const [showModal, setShowModal] = useState(show)
   const [showError, setShowError] = useState(false)
   const router = useRouter()
@@ -19,8 +19,7 @@ const Modal = ({ show = false, setShowProfileModal, profile }) => {
   } = useForm()
 
   const onClose = () => {
-    setShowProfileModal(false)
-    setShowModal(false)
+    showProfileModalFn(false, false)
   }
 
   const onSubmit = async (data, event) => {
@@ -33,8 +32,7 @@ const Modal = ({ show = false, setShowProfileModal, profile }) => {
     const updateUser = await updateUserFx({ url: `/users/update`, ...data })
 
     if (updateUser) {
-      setShowModal(false)
-      // window.location.reload()
+      showProfileModalFn(false, true)
     }
 
     return () => setShowError(false)
@@ -46,7 +44,7 @@ const Modal = ({ show = false, setShowProfileModal, profile }) => {
         <>
           <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
-              <div className="mt-96 md:w-[500px] sm:w-[500px] xs:w-[400px]  border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className="mt-[550px] md:w-[500px] sm:w-[500px] xs:w-[400px]  border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
                   <h3 className="text-3xl font=semibold items-center text-center w-full">
                     Редактирование аккаунта
@@ -265,9 +263,26 @@ const Modal = ({ show = false, setShowProfileModal, profile }) => {
                         {...register('youtube')}
                       />
                     </div>
-                    <label className="block text-black text-sm font-bold mb-1">
+                    <div className="flex flex-col max-w-md space-y-3 w-full">
+                      <label
+                        className="block text-black text-sm font-bold mb-1"
+                        htmlFor="twitch"
+                      >
+                        twitch
+                      </label>
+                      <input
+                        type="text"
+                        className="block p-3 w-full text-sm text-gray-900 bg-gray-50
+                      rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500
+                         dark:placeholder-gray-400 dark:text-gray-700
+                        dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                        defaultValue={profile.twitch}
+                        {...register('twitch')}
+                      />
+                    </div>
+                    {/* <label className="block text-black text-sm font-bold mb-1">
                       Подписчики
-                    </label>
+                    </label> */}
                     <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b w-full">
                       <button
                         className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
