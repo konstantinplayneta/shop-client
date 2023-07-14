@@ -31,6 +31,10 @@ export default function ProfilePage() {
   const [canEdit, setCanEdit] = useState(false)
   const [showProfileModal, setShowProfileModal] = useState(false)
 
+  useEffect(() => {
+    getUserProfile(pathname.split('/')[2])
+  }, [profile])
+
   const showProfileModalFn = (show, reload) => {
     setShowProfileModal(show)
     if (reload) {
@@ -103,8 +107,6 @@ export default function ProfilePage() {
     },
   })
 
-  console.log(user);
-  
   const myImage = cld.image(user?.image || 'r3uycl1t4qzr8sysygco')
   myImage.resize(fill().width(200).height(300).gravity(autoGravity()))
 
@@ -116,7 +118,10 @@ export default function ProfilePage() {
           <div
             className="absolute top-0 w-full h-96 bg-center bg-cover"
             style={{
-              backgroundImage: `url(${user?.background || 'https://res.cloudinary.com/dzx0xfcgn/image/upload/v1689266506/tuthtosukzi2rx499o1c.jpg'})`,
+              backgroundImage: `url(${
+                user?.background ||
+                'https://res.cloudinary.com/dzx0xfcgn/image/upload/v1689266506/tuthtosukzi2rx499o1c.jpg'
+              })`,
             }}
           >
             <span
@@ -213,24 +218,10 @@ export default function ProfilePage() {
                     <div className="flex justify-center py-4 lg:pt-4 pt-8">
                       <div className="mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          1M
+                          {user?.subscribers}
                         </span>
                         <span className="text-sm text-blueGray-400">
                           Подписчики
-                        </span>
-                      </div>
-                      <div className="mr-4 p-3 text-center">
-                        <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          10
-                        </span>
-                        <span className="text-sm text-blueGray-400">Фото</span>
-                      </div>
-                      <div className="lg:mr-4 p-3 text-center">
-                        <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          89
-                        </span>
-                        <span className="text-sm text-blueGray-400">
-                          Комментарии
                         </span>
                       </div>
                     </div>
@@ -247,7 +238,7 @@ export default function ProfilePage() {
                   {showLink ? (
                     <SocialList links={links} />
                   ) : (
-                    <div>Добавьте соцсети</div>
+                    <>{canEdit && <div>Добавьте соцсети</div>}</>
                   )}
                 </div>
                 <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
@@ -324,8 +315,6 @@ const Item = (el) => {
   const [canEdit, setCanEdit] = useState(false)
 
   const makePay = async (price, item) => {
-    console.log(user, profile)
-
     try {
       const data = await makePaymentFx({
         url: '/payment',

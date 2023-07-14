@@ -21,7 +21,6 @@ export const updateUserFx = createEffect(
   async ({
     url,
     username,
-    password,
     email,
     sex,
     age,
@@ -34,10 +33,11 @@ export const updateUserFx = createEffect(
     twitch,
     image,
     background,
+    subscribers,
+    password,
   }) => {
     const { user } = await api.patch(url, {
       username,
-      password,
       email,
       sex,
       age,
@@ -50,6 +50,8 @@ export const updateUserFx = createEffect(
       twitch,
       image,
       background,
+      subscribers,
+      password,
     })
 
     if (user?.warningMessage) {

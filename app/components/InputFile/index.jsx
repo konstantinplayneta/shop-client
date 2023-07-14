@@ -4,12 +4,12 @@ import React, { useState, useRef } from 'react'
 import { uploadImageFx } from '../../api/images'
 import { updateUserFx } from '@/app/api/user'
 import { useStore } from 'effector-react'
-import { $user } from '@/app/context/user'
+import { $user, setUser } from '@/app/context/user'
 
-const inputStyle = { display: 'none' } // assigned to input makes it invisible
+const inputStyle = { display: 'none' }
 
 const InputFileButton = ({ children, bg }) => {
-  const inputRef = React.useRef(null) // creates reference (to the invisible input)
+  const inputRef = React.useRef(null)
   const [file, setFile] = React.useState(null)
   const user = useStore($user)
 
@@ -35,9 +35,7 @@ const InputFileButton = ({ children, bg }) => {
             background: image?.url,
           }).then((data) => {
             if (data) {
-              setTimeout(() => {
-                window.location.reload()
-              }, 500)
+              setUser({ ...user, background: image?.url })
             }
           })
         } else {
@@ -48,9 +46,7 @@ const InputFileButton = ({ children, bg }) => {
             image: image?.public_id,
           }).then((data) => {
             if (data) {
-              setTimeout(() => {
-                window.location.reload()
-              }, 500)
+              setUser({ ...user, image: image?.url })
             }
           })
         }

@@ -21,8 +21,7 @@ const initUserData = {
   onlyfans: '',
   youtube: '',
   twitch: '',
-  image:
-    'https://loremflickr.com/640/480/technics?random=144263469174908679338040957031',
+  image: '',
 }
 
 export default function Registration() {

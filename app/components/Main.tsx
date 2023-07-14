@@ -11,8 +11,6 @@ export default function Main() {
 
   const handleCreateList = () => {
     if (user?.username) {
-      console.log(user)
-
       router.push(`profile/${user?.username}`)
     } else {
       router.push('/login')

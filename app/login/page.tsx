@@ -226,6 +226,15 @@ export default function Login() {
                 </div>
               </div>
             </form>
+            <div className="flex flex-wrap items-end space-x-2 justify-end self-end">
+              <span>Не удается войти?</span>
+              <a
+                href="/password-reset"
+                className="underline font-medium text-[#070eff]"
+              >
+                восстановить пароль
+              </a>
+            </div>
           </div>
         </div>
       </div>
